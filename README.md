@@ -26,6 +26,25 @@ This repository hosts a single-page helper that streamlines handing out Pokémon
 > Bonus: If you refresh the page, the pending list will be restored automatically and the textarea will repopulate so you can keep going.
 > Need printed codes? Press **Printable sheet** and download/print the generated template. (Open it from the same browser where you loaded the session so it can read the saved codes.)
 
+## iOS companion app
+
+An iOS version of the helper lives in `ios/CampfireCompanion`. It mirrors the web tool’s capabilities:
+
+- Load bulk codes (one per line or comma separated) and keep an audit trail of redeemed codes.
+- Pick the redemption language before handing out a code.
+- Present a QR code, share link, and copy helpers for the active passcode.
+- Generate an on-device printable sheet for the remaining codes.
+- Persist the full session in `UserDefaults` so the flow resumes after relaunch.
+
+### Getting started in Xcode
+
+1. Create a new **iOS · App** project in Xcode (SwiftUI lifecycle, Swift language).
+2. Replace the generated app files with the contents of `ios/CampfireCompanion`. Keep the asset catalog directory when you drag the folder in.
+3. Make sure the target’s deployment info is set to iOS 17 or later (SwiftUI `NavigationStack` and `ShareLink` are required).
+4. Build & run on simulator or device. The app saves sessions automatically, so you can quit and resume where you left off.
+
+Feel free to adjust colors, typography, or assets inside the SwiftUI panels if you want a different look on iOS. The logic for parsing, persistence, and QR generation is shared via the files in `Models`, `Services`, and `ViewModels`.
+
 ## Customising
 
 All styling and logic lives inside `index.html`. Feel free to tweak the CSS or replace the QR generation logic with a preferred library if you need offline QR images.
