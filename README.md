@@ -1,53 +1,39 @@
-# Pokémon GO Code Giveaway Helper
+# Campfire Companion
 
-> Static helper for handing out Pokémon GO digital codes during community events.
+SwiftUI iOS app for handing out Pokémon GO digital codes during community events. It mirrors the workflow of the original web helper but lives natively on iPhone and iPad.
 
-This repository hosts a single-page helper that streamlines handing out Pokémon GO passcodes during community events.
+> Looking for the browser version? It continues to live in the dedicated `pogo-code-redemption` repository. Use that repo for static HTML/CSS/JS hosting; this project focuses on the iOS build.
 
 ## Features
 
-- Paste a batch of codes (newline or comma separated) and load them into the tool.
-- Generate the official redemption link and QR code for the first pending code.
+- Paste a batch of codes (newline or comma separated) and load them into the session.
+- Generate the official redemption link and QR code for the current passcode.
 - Mark codes as redeemed to keep a running history and avoid duplicates.
-- Resume exactly where you left off after a refresh thanks to automatic local storage.
-- Generate a printable QR sheet for the pending codes with a single click.
+- Resume exactly where you left off thanks to automatic `UserDefaults` persistence.
+- Generate an on-device printable QR sheet for the pending codes.
 - Pick the Pokémon GO store language (en, es, pt, de, fr) before generating links and QR codes.
-- Clear the session and load a fresh set whenever new codes arrive.
+- Share or copy the active redemption link directly from the app.
 
-## Using the page locally
-
-1. Open `index.html` in any modern browser.
-2. Choose the redemption language (defaults to English), paste your codes into the textarea (one per line works best), and press **Load codes**.
-3. When you're ready to hand out a code, click **Give away code**.
-4. Ask the trainer to scan the QR code or tap the redemption link.
-5. After they redeem it, click **Mark as redeemed** to archive the code and move to the next one.
-
-> Tip: You can press `Ctrl+Enter` (`⌘+Enter` on macOS) while the textarea is focused to load codes quickly.
-> Bonus: If you refresh the page, the pending list will be restored automatically and the textarea will repopulate so you can keep going.
-> Need printed codes? Press **Printable sheet** and download/print the generated template. (Open it from the same browser where you loaded the session so it can read the saved codes.)
-
-## iOS companion app
-
-An iOS version of the helper lives in `ios/CampfireCompanion`. It mirrors the web tool’s capabilities:
-
-- Load bulk codes (one per line or comma separated) and keep an audit trail of redeemed codes.
-- Pick the redemption language before handing out a code.
-- Present a QR code, share link, and copy helpers for the active passcode.
-- Generate an on-device printable sheet for the remaining codes.
-- Persist the full session in `UserDefaults` so the flow resumes after relaunch.
-
-### Getting started in Xcode
+## Getting started in Xcode
 
 1. Create a new **iOS · App** project in Xcode (SwiftUI lifecycle, Swift language).
-2. Replace the generated app files with the contents of `ios/CampfireCompanion`. Keep the asset catalog directory when you drag the folder in.
-3. Make sure the target’s deployment info is set to iOS 17 or later (SwiftUI `NavigationStack` and `ShareLink` are required).
-4. Build & run on simulator or device. The app saves sessions automatically, so you can quit and resume where you left off.
+2. Drag the contents of `ios/CampfireCompanion` into the project, replacing the template files. Keep the asset catalog folder when importing.
+3. Set the deployment target to iOS 17 (or later) so `NavigationStack`, `ShareLink`, and the QR APIs are available.
+4. Build & run on a simulator or device. The session saves automatically, so you can quit and resume where you left off.
 
-Feel free to adjust colors, typography, or assets inside the SwiftUI panels if you want a different look on iOS. The logic for parsing, persistence, and QR generation is shared via the files in `Models`, `Services`, and `ViewModels`.
+## Project layout
 
-## Customising
+```
+ios/CampfireCompanion/
+├── CampfireCompanionApp.swift   # App entry point
+├── ContentView.swift            # Root screen composing the panels
+├── Models/                      # Session, language, and status types
+├── Services/                    # Parsing, persistence, and QR helpers
+├── ViewModels/                  # ObservableObject driving UI state
+└── Views/                       # Reusable SwiftUI components + printable sheet
+```
 
-All styling and logic lives inside `index.html`. Feel free to tweak the CSS or replace the QR generation logic with a preferred library if you need offline QR images.
+Feel free to adjust colors, typography, or assets inside the SwiftUI panels if you want a different look on iOS. The view model encapsulates the business logic and can be unit-tested outside of SwiftUI if you add tests.
 
 ## Contributing
 
